@@ -2,15 +2,14 @@ import zmq
 import requests
 
 
-def fetch_medication_data(med):
+def fetch_medication_uses(med):
     api_url = f"https://api.fda.gov/drug/label.json?search=openfda.brand_name:{med}"
     
     response = requests.get(api_url)
     if response.status_code == 200 and 'results' in response.json():
         data = response.json()['results'][0]
-        brand_names = data['openfda'].get('brand_name', 'N/A')
-        generic_name = data['openfda'].get('generic_name', 'N/A')
-        return f"Brand Names: {', '.join(brand_names)}\nGeneric Name: {', '.join(generic_name)}"
+        uses = data.get('indications_and_usage', 'N/A')
+        return f"Uses: {uses}"
     else:
         return None
 
@@ -18,15 +17,15 @@ def fetch_medication_data(med):
 def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5554")
+    socket.bind("tcp://*:5556")
 
     while True:
         med = socket.recv_string()
-        result = fetch_medication_data(med)
+        result = fetch_medication_uses(med)
         if result:
             socket.send_string(result)
         else:
-            socket.send_string("\nError: Medication not found. Please check your spelling or try a different medication.\n")
+            socket.send_string("Error: Medication uses not found. Please check your spelling or try a different medication.")
 
 
 if __name__ == "__main__":
