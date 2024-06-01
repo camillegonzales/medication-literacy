@@ -68,7 +68,7 @@ def display_options():
 def fetch_brand_generic_names(medication_name):
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
-    socket.connect("tcp://localhost:5555")
+    socket.connect("tcp://localhost:5554")
 
     socket.send_string(medication_name)
     result = socket.recv_string()
