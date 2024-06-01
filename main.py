@@ -1,25 +1,28 @@
 def print_intro():
-    intro = ("Welcome to the Medication Literacy App! \n\nLearn about a "
-             "medication's different names, uses, side effects, and potential "
-             "interactions to improve your medication understanding.")
+    banner = '''
+    __  ___         ___            __  _                __    _ __                            
+   /  |/  /__  ____/ (_)________ _/ /_(_)___  ____     / /   (_) /____  _________ ________  __
+  / /|_/ / _ \/ __  / / ___/ __ `/ __/ / __ \/ __ \   / /   / / __/ _ \/ ___/ __ `/ ___/ / / /
+ / /  / /  __/ /_/ / / /__/ /_/ / /_/ / /_/ / / / /  / /___/ / /_/  __/ /  / /_/ / /__/ /_/ / 
+/_/  /_/\___/\__,_/_/\___/\__,_/\__/_/\____/_/ /_/  /_____/_/\__/\___/_/   \__,_/\___/\__, /  
+                                                                                     /____/                                                                                         
+'''
+    intro = ("Welcome to the Medication Literacy App! \n\nLearn about medication's different names, uses, side effects, and potential interactions to improve your medication understanding.")
+    print(banner)
     print(intro)
 
 
 def get_med():
     while True:
-        medication = input("\nEnter a medication name or type 'help' for more "
-                           "information: ")
+        medication = input("\nEnter a medication name or type 'help' for more information: ")
         if medication.lower() == 'help':
             print("\nHELP - Entering medications: \n"
-                  "- Type the name of the medication you wish to learn "
-                  "about and press Enter. \n"
-                  "- Ensure correct spelling of medications to get accurate "
-                  "information.")
+                  "- Type the name of the medication you wish to learn about and press Enter. \n"
+                  "- Ensure correct spelling of medications to get accurate information.")
         elif medication in medication_data:
             return medication
         else:
-            print("\nNo information available for this medication. "
-                  "Please check your spelling or try a different medication.")
+            print("\nNo information available for this medication. Please check your spelling or try a different medication.")
 
 
 def get_info_type():
@@ -30,22 +33,15 @@ def get_info_type():
               "3) Possible Side effects \n"
               "4) Drug Interactions \n")
 
-        info_type = input("Type the number of your choice or type 'help' for "
-                          "more information: ")
+        info_type = input("Type the number of your choice or type 'help' for more information: ")
 
         if info_type.lower() == 'help':
             print("\nHELP - Choosing A Feature/Information Type: \n"
-                  "1. Brand and Generic Names - Lists the official name and "
-                  "common brand names. \n"
-                  "2. Uses of the Medication - Describes what the medication "
-                  "is typically used for. \n"
-                  "3. Possible Side effects - Details common and rare side "
-                  "effects associated with the medication. \n"
-                  "4. Drug Interactions - Provides information on how the "
-                  "drug interacts with other medications, foods, or health "
-                  "conditions. \n"
-                  "- To select an option, type the number of your choice then "
-                  "press Enter.")
+                  "1. Brand and Generic Names - Lists the official name and common brand names. \n"
+                  "2. Uses of the Medication - Describes what the medication is typically used for. \n"
+                  "3. Possible Side effects - Details common and rare side effects associated with the medication. \n"
+                  "4. Drug Interactions - Provides information on how the drug interacts with other medications, foods, or health conditions. \n"
+                  "- To select an option, type the number of your choice then press Enter.")
         elif info_type in ['1', '2', '3', '4']:
             return info_type
         else:
@@ -128,8 +124,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # with open("input.txt", "w") as file:
-    #     file.write(medication)
-
-    # import time
