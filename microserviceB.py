@@ -8,9 +8,9 @@ def fetch_medication_data(med):
     response = requests.get(api_url)
     if response.status_code == 200 and 'results' in response.json():
         data = response.json()['results'][0]
-        brand_names = data['openfda'].get('brand_name', 'N/A')
+        brand_name = data['openfda'].get('brand_name', 'N/A')
         generic_name = data['openfda'].get('generic_name', 'N/A')
-        return f"Brand Names: {', '.join(brand_names)}\nGeneric Name: {', '.join(generic_name)}"
+        return f"Brand Names: {', '.join(brand_name)}\nGeneric Name: {', '.join(generic_name)}"
     else:
         return None
 
