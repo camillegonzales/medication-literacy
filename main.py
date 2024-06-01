@@ -52,7 +52,9 @@ def get_info_type():
 def display_results(med, info_type):
     if info_type == '1':
         result = fetch_brand_generic_names(med)
-        print(result)
+    elif info_type == '2':
+        result = fetch_med_uses(med)
+    print(result)
 
 
 def display_options():
@@ -65,12 +67,22 @@ def display_options():
     return option.lower()
 
 
-def fetch_brand_generic_names(medication_name):
+def fetch_brand_generic_names(med):
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:5554")
 
-    socket.send_string(medication_name)
+    socket.send_string(med)
+    result = socket.recv_string()
+    return result
+
+
+def fetch_med_uses(med):
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:5556")
+
+    socket.send_string(med)
     result = socket.recv_string()
     return result
 
