@@ -10,7 +10,8 @@ def print_intro():
 /_/  /_/\___/\__,_/_/\___/\__,_/\__/_/\____/_/ /_/  /_____/_/\__/\___/_/   \__,_/\___/\__, /  
                                                                                      /____/                                                                                         
 '''
-    intro = ("Welcome to the Medication Literacy App! \n\nLearn about medication's different names, uses, side effects, and potential interactions to improve your medication understanding.")
+    intro = ("Welcome to the Medication Literacy App!" 
+             "\n\nLearn about medication's different names, uses, side effects, and potential interactions to improve your medication understanding.")
     print(banner)
     print(intro)
 
@@ -54,6 +55,8 @@ def display_results(med, info_type):
         result = fetch_brand_generic_names(med)
     elif info_type == '2':
         result = fetch_med_uses(med)
+    elif info_type == '3':
+        result = fetch_med_side_effects(med)
     print(f"\n{result}\n")
 
 
@@ -87,6 +90,16 @@ def fetch_med_uses(med):
     return result
 
 
+def fetch_med_side_effects(med):
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:5557")
+
+    socket.send_string(med)
+    result = socket.recv_string()
+    return result
+
+
 def main():
     print_intro()
     med = get_med()
@@ -99,8 +112,7 @@ def main():
         elif option == 'new':
             med = get_med()
         elif option == 'exit':
-            print("\nThank you for using the Medication Literacy App. Have a "
-                  "great day!")
+            print("\nThank you for using the Medication Literacy App. Have a great day!")
             break
 
 
