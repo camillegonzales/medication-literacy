@@ -8,12 +8,20 @@ def fetch_medication_side_effects(med):
     response = requests.get(api_url)
     if response.status_code == 200 and 'results' in response.json():
         data = response.json()['results'][0]
-        side_effects_list = data.get('adverse_reactions', ['N/A'])
-        if isinstance(side_effects_list, list):
-            side_effects = '\n'.join(side_effects_list)
-        else:
-            side_effects = 'N/A'
-        return f"Possible Side effects: \n{side_effects}"
+
+        potential_fields = ['warnings', 'precautions', 'side_effects', 'adverse_reactions']
+        side_effects = 'N/A'
+        
+        for field in potential_fields:
+            if field in data:
+                side_effects_list = data[field]
+                if isinstance(side_effects_list, list):
+                    side_effects = '\n'.join(side_effects_list)
+                else:
+                    side_effects = side_effects_list
+                break
+        
+        return f"Possible Side Effects: \n{side_effects}"
     else:
         return None
 
