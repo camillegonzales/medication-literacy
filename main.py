@@ -54,7 +54,7 @@ def display_results(med, info_type):
         result = fetch_brand_generic_names(med)
     elif info_type == '2':
         result = fetch_med_uses(med)
-    print(result)
+    print(f"\n{result}\n")
 
 
 def display_options():
