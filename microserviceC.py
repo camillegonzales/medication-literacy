@@ -8,8 +8,12 @@ def fetch_medication_uses(med):
     response = requests.get(api_url)
     if response.status_code == 200 and 'results' in response.json():
         data = response.json()['results'][0]
-        uses = data.get('indications_and_usage', 'N/A')
-        return f"Uses: {uses}"
+        uses_list = data.get('indications_and_usage', ['N/A'])
+        if isinstance(uses_list, list):
+            uses = '\n'.join(uses_list)
+        else:
+            uses = 'N/A'
+        return f"Uses: \n{uses}"
     else:
         return None
 
