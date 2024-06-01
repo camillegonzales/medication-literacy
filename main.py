@@ -1,3 +1,6 @@
+import zmq
+
+
 def print_intro():
     banner = '''
     __  ___         ___            __  _                __    _ __                            
@@ -19,10 +22,8 @@ def get_med():
             print("\nHELP - Entering medications: \n"
                   "- Type the name of the medication you wish to learn about and press Enter. \n"
                   "- Ensure correct spelling of medications to get accurate information.")
-        elif medication in medication_data:
-            return medication
         else:
-            print("\nNo information available for this medication. Please check your spelling or try a different medication.")
+            return medication
 
 
 def get_info_type():
@@ -49,18 +50,9 @@ def get_info_type():
 
 
 def display_results(med, info_type):
-    med_info = medication_data.get(med.lower())
-    if isinstance(med_info, str):
-        print(med_info)
-        return
-
-    info_mapping = {
-        '1': f"{med_info['brand']}\n{med_info['generic']}",
-        '2': med_info['uses'],
-        '3': med_info['side_effects'],
-        '4': med_info['interactions']
-    }
-    print(f"\nShowing results for {med}:\n{info_mapping[info_type]}\n")
+    if info_type == '1':
+        result = fetch_brand_generic_names(med)
+        print(result)
 
 
 def display_options():
@@ -73,36 +65,14 @@ def display_options():
     return option.lower()
 
 
-medication_data = {
-    'acetaminophen': {
-        'brand': "Brand Names: Tylenol, Panadol",
-        'generic': "Generic Name: Acetaminophen",
-        'uses': ("Used to relieve pain and reduce fever. Often used to treat "
-                 "conditions like headache, muscle aches, arthritis, "
-                 "backache, toothaches, colds, and fevers."),
-        'side_effects': ("Possible side effects include nausea, upper stomach "
-                         "pain, itching, loss of appetite, dark urine, "
-                         "clay-colored stools, and jaundice."),
-        'interactions': ("Can interact with alcohol, causing liver damage, "
-                         "and may affect the efficacy of various drugs "
-                         "including blood thinners like warfarin.")
-    },
-    'ibuprofen': {
-        'brand': "Brand Names: Advil, Motrin",
-        'generic': "Generic Name: Ibuprofen",
-        'uses': ("Used to reduce fever and treat pain or inflammation "
-                 "caused by many conditions such as headache, toothache, back "
-                 "pain, arthritis, menstrual cramps, or minor injury."),
-        'side_effects': ("Side effects may include stomach pain, "
-                         "constipation, diarrhea, gas, heartburn, nausea, and "
-                         "vomiting. Serious side effects include heart attack "
-                         "or stroke, especially with long-term use."),
-        'interactions': ("Interacts with aspirin, anticoagulants like "
-                         "warfarin, other NSAIDs, ACE inhibitors, and "
-                         "diuretics. Mixing with alcohol can increase stomach "
-                         "bleeding risk.")
-    }
-}
+def fetch_brand_generic_names(medication_name):
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:5555")
+
+    socket.send_string(medication_name)
+    result = socket.recv_string()
+    return result
 
 
 def main():
