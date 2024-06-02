@@ -57,6 +57,8 @@ def display_results(med, info_type):
         result = fetch_med_uses(med)
     elif info_type == '3':
         result = fetch_med_side_effects(med)
+    elif info_type == '4':
+        result = fetch_med_interactions(med)
     print(f"\n{result}\n")
 
 
@@ -94,6 +96,15 @@ def fetch_med_side_effects(med):
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
     socket.connect("tcp://localhost:5557")
+
+    socket.send_string(med)
+    result = socket.recv_string()
+    return result
+
+def fetch_med_interactions(med):
+    context = zmq.Context()
+    socket = context.socket(zmq.REQ)
+    socket.connect("tcp://localhost:5555")
 
     socket.send_string(med)
     result = socket.recv_string()
