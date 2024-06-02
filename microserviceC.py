@@ -25,6 +25,7 @@ def main():
 
     while True:
         med = socket.recv_string()
+        print(f"Received message: {med}")
         result = fetch_medication_uses(med)
         if result:
             socket.send_string(result)

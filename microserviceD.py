@@ -32,8 +32,9 @@ def main():
     socket.bind("tcp://*:5553")
 
     while True:
-        medication_name = socket.recv_string()
-        result = fetch_medication_side_effects(medication_name)
+        med = socket.recv_string()
+        print(f"Received message: {med}")
+        result = fetch_medication_side_effects(med)
         if result:
             socket.send_string(result)
         else:
