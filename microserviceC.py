@@ -21,7 +21,7 @@ def fetch_medication_uses(med):
 def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5556")
+    socket.bind("tcp://*:5552")
 
     while True:
         med = socket.recv_string()

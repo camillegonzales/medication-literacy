@@ -29,7 +29,7 @@ def fetch_medication_side_effects(med):
 def main():
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind("tcp://*:5557")
+    socket.bind("tcp://*:5553")
 
     while True:
         medication_name = socket.recv_string()
