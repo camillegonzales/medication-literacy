@@ -21,7 +21,7 @@ def fetch_medication_side_effects(med):
                     side_effects = side_effects_list
                 break
         
-        return f"Possible Side Effects: \n{side_effects}"
+        return f"Possible Side Effects for {med}: \n{side_effects}"
     else:
         return None
 

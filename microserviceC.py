@@ -13,7 +13,7 @@ def fetch_medication_uses(med):
             uses = '\n'.join(uses_list)
         else:
             uses = 'N/A'
-        return f"Uses: \n{uses}"
+        return f"Uses for {med}: \n{uses}"
     else:
         return None
 
