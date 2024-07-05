@@ -4,7 +4,7 @@ import requests
 
 def fetch_medication_data(med):
     """
-    Fetches medication data from the FDA API based on the medication name.
+    Fetches medication brand and generic name data from the FDA API based on the medication name.
 
     Args:
         med (str): The name of the medication.
