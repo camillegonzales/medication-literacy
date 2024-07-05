@@ -2,6 +2,9 @@ import zmq
 
 
 def print_intro():
+    """
+    Prints the introductory banner and welcome message for the Medication Literacy App.
+    """
     banner = '''
     __  ___         ___            __  _                __    _ __                            
    /  |/  /__  ____/ (_)________ _/ /_(_)___  ____     / /   (_) /____  _________ ________  __
@@ -17,6 +20,12 @@ def print_intro():
 
 
 def get_med():
+    """
+    Prompts the user to enter a medication name or type 'help' for more information.
+    
+    Returns:
+        str: The name of the medication entered by the user.
+    """
     while True:
         medication = input("\nEnter a medication name or type 'help' for more information: ")
         if medication.lower() == 'help':
@@ -28,6 +37,12 @@ def get_med():
 
 
 def get_info_type():
+    """
+    Prompts the user to choose the type of information they wish to receive about the medication.
+    
+    Returns:
+        str: The number corresponding to the chosen information type.
+    """
     while True:
         print("\nChoose the type of information you wish to receive: \n"
               "1) Brand and Generic Names \n"
@@ -51,11 +66,24 @@ def get_info_type():
 
 
 def display_results(med, info_type):
+    """
+    Displays the fetched information about the medication based on the selected type.
+
+    Args:
+        med (str): The name of the medication.
+        info_type (str): The type of information to fetch and display.
+    """
     result = fetch_med_data(med, info_type)
     print(f"\n{result}\n")
 
 
 def display_options():
+    """
+    Displays the options for the next action the user can take.
+    
+    Returns:
+        str: The chosen option by the user ('back', 'new', or 'exit').
+    """
     print("Options:\n"
           "- 'back' to explore previous options \n"
           "- 'new' to learn about a different medication \n"
@@ -66,6 +94,20 @@ def display_options():
 
 
 def fetch_med_data(med, info_type):
+    """
+    Fetches information about the medication from the server.
+
+    Sets up a ZeroMQ REQ socket, connects to the server, sends the medication
+    name and information type, and waits for a response from the server. The server listens
+    on the appropriate port based on the information type.
+
+    Args:
+        med (str): The name of the medication.
+        info_type (str): The type of information to fetch.
+
+    Returns:
+        str: The fetched information about the medication.
+    """
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
     socket.connect(f"tcp://localhost:555{info_type}")
@@ -76,6 +118,9 @@ def fetch_med_data(med, info_type):
 
 
 def main():
+    """
+    The main function to run the Medication Literacy App.
+    """
     print_intro()
     med = get_med()
     while True:
